@@ -19,6 +19,19 @@ public class Filme {
 	private String studios;
 	private String produtor;
 	private boolean vencedor;
+	
+	public Filme() {
+		super();
+	}
+
+	public Filme(int ano, String titulo, String studios, String produtor, boolean vencedor) {
+		super();
+		this.ano = ano;
+		this.titulo = titulo;
+		this.studios = studios;
+		this.produtor = produtor;
+		this.vencedor = vencedor;
+	}
 
 	public Long getId() {
 		return id;
