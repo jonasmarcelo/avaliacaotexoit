@@ -18,6 +18,9 @@ public class DBService {
 	@Autowired
 	private FilmeService filmeService;
 
+	/**
+	 * Método que faz a leitura do arquivo de filmes e grava os dados no BD na inicialização da aplicação.
+	 */
 	public void instanciaBaseDeDados() {
 
 		this.filmeService.deleteAll();

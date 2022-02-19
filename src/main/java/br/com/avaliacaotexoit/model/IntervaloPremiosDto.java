@@ -1,6 +1,6 @@
 package br.com.avaliacaotexoit.model;
 
-public class IntervaloPremios {
+public class IntervaloPremiosDto {
 
 	private IntervaloMin min;
 	private IntervaloMax max;
