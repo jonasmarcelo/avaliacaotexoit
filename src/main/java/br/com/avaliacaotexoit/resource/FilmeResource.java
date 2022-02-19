@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,14 +12,14 @@ import br.com.avaliacaotexoit.service.FilmeService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(path = "/api/filme")
+@RequestMapping(path = "/avaliacaotexoit/api/filme")
 public class FilmeResource {
 	
 	@Autowired
 	private FilmeService service;
 
-	@GetMapping()
-    public ResponseEntity<IntervaloPremiosDto> getProdutoresMaiorMenorIntervaloPremio(@PathVariable Long id){
+	@GetMapping(path = "/produtoresMaiorMenorIntervaloPremio")
+    public ResponseEntity<IntervaloPremiosDto> getProdutoresMaiorMenorIntervaloPremio(){
         return ResponseEntity.ok().body(this.service.getProdutoresMaiorMenorIntervaloPremio());
     }
 }

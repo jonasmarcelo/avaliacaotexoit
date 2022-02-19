@@ -1,23 +1,35 @@
 package br.com.avaliacaotexoit.model;
 
+import java.util.List;
+
 public class IntervaloPremiosDto {
 
-	private IntervaloMin min;
-	private IntervaloMax max;
+	private List<IntervaloPremios> min;
+	private List<IntervaloPremios> max;
+	
+	public IntervaloPremiosDto() {
+		super();
+	}
 
-	public IntervaloMin getMin() {
+	public IntervaloPremiosDto(List<IntervaloPremios> min, List<IntervaloPremios> max) {
+		super();
+		this.min = min;
+		this.max = max;
+	}
+
+	public List<IntervaloPremios> getMin() {
 		return min;
 	}
 
-	public void setMin(IntervaloMin min) {
+	public void setMin(List<IntervaloPremios> min) {
 		this.min = min;
 	}
 
-	public IntervaloMax getMax() {
+	public List<IntervaloPremios> getMax() {
 		return max;
 	}
 
-	public void setMax(IntervaloMax max) {
+	public void setMax(List<IntervaloPremios> max) {
 		this.max = max;
 	}
 
