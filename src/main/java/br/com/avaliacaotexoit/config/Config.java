@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import br.com.avaliacaotexoit.service.DBService;
 
 @Configuration
-public class DevConfig {
+public class Config {
 
 	@Autowired
 	private DBService dbService;

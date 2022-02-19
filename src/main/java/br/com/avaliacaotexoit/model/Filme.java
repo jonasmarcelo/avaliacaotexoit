@@ -16,19 +16,19 @@ public class Filme {
 
 	private int ano;
 	private String titulo;
-	private String studios;
+	private String estudio;
 	private String produtor;
 	private boolean vencedor;
-	
+
 	public Filme() {
 		super();
 	}
 
-	public Filme(int ano, String titulo, String studios, String produtor, boolean vencedor) {
+	public Filme(int ano, String titulo, String estudio, String produtor, boolean vencedor) {
 		super();
 		this.ano = ano;
 		this.titulo = titulo;
-		this.studios = studios;
+		this.estudio = estudio;
 		this.produtor = produtor;
 		this.vencedor = vencedor;
 	}
@@ -57,12 +57,12 @@ public class Filme {
 		this.titulo = titulo;
 	}
 
-	public String getStudios() {
-		return studios;
+	public String getEstudio() {
+		return estudio;
 	}
 
-	public void setStudios(String studios) {
-		this.studios = studios;
+	public void setEstudio(String estudio) {
+		this.estudio = estudio;
 	}
 
 	public String getProdutor() {

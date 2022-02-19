@@ -1,5 +1,10 @@
 package br.com.avaliacaotexoit.service;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,21 +13,61 @@ import br.com.avaliacaotexoit.model.Filme;
 @Service
 public class DBService {
 
+	private static final String PATH = "filmes\\movielist.csv";
+
 	@Autowired
 	private FilmeService filmeService;
 
 	public void instanciaBaseDeDados() {
-		
+
 		this.filmeService.deleteAll();
 
-		Filme f1 = new Filme(1980, "Can't Stop the Music", "Associated Film Distribution", "Allan Carr", true);
-		Filme f2 = new Filme(1980, "Cruising", "Lorimar Productions", "United Artists	Jerry Weintraub", false);
-		Filme f3 = new Filme(1980, "The Formula	MGM", "United Artists", "Steve Shagan", false);
+		List<Filme> filmes = this.getFilmesArquivo();
+		
+		filmes.forEach(filme -> this.filmeService.salvar(filme));
 
-		this.filmeService.salvar(f1);
-		this.filmeService.salvar(f2);
-		this.filmeService.salvar(f3);
+	}
 
+	/**
+	 * Método responsável por ler o arquivo.csv de filmes e devolver uma lista de Filmes
+	 * 
+	 * @return List<Filme>
+	 */
+	public List<Filme> getFilmesArquivo() {
+		
+		List<Filme> filmes = new ArrayList<Filme>();
+
+		try (BufferedReader br = new BufferedReader(new FileReader(PATH))) {
+
+			String linha = br.readLine();
+			linha = br.readLine();
+			while (linha != null) {
+				String[] linhaVetor = linha.split(";");
+
+				int ano = Integer.valueOf(linhaVetor[0]);
+				String titulo = linhaVetor[1];
+				String estudio = linhaVetor[2];
+				String produtor = linhaVetor[3];
+
+				boolean vencedor;
+				if (linhaVetor.length < 5) {
+					vencedor = false;
+				} else {
+					vencedor = (linhaVetor[4]).equals("yes") ? true : false;
+				}
+				
+				Filme filme = new Filme(ano, titulo, estudio, produtor, vencedor);
+				
+				filmes.add(filme);
+				
+				linha = br.readLine();
+			}
+			
+		} catch (Exception e) {
+			throw new RuntimeException("Erro ao ler o arquivo!: " + e.getMessage());
+		}
+		
+		return filmes;
 	}
 
 }
