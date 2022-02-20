@@ -1,39 +1,59 @@
 package br.com.avaliacaotexoit.resource;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
+import static io.restassured.module.mockmvc.RestAssuredMockMvc.standaloneSetup;
+import static org.mockito.Mockito.when;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+import br.com.avaliacaotexoit.model.IntervaloPremios;
+import br.com.avaliacaotexoit.model.IntervaloPremiosDto;
+import br.com.avaliacaotexoit.repository.FilmeRepository;
+import br.com.avaliacaotexoit.service.FilmeService;
+import io.restassured.http.ContentType;
+
+@WebMvcTest
 public class FilmeResourceTest {
 
-	public MockMvc mvc;
-	
 	@Autowired
-	public WebApplicationContext context;
+	private FilmeResource filmeResource;
 
-	@Before
+	@MockBean
+	private FilmeService filmeService;
+
+	@MockBean
+	private FilmeRepository filmeRepository;
+
+	@BeforeEach
 	public void setup() {
-		this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
+		standaloneSetup(this.filmeResource);
 	}
 
 	@Test
-	public void testeGetProdutoresMaiorMenorIntervaloPremio() throws Exception {
-		String url = "/avaliacaotexoit/api/filme/produtoresMaiorMenorIntervaloPremio";
+	public void testaGetProdutoresMaiorMenorIntervaloPremio() {
 
-		this.mvc.perform(get(url)).andExpect(status().isOk()).andExpect(jsonPath("producer", equalTo("producer")));
+		List<IntervaloPremios> min = new ArrayList<IntervaloPremios>();
+		IntervaloPremios intervaloMin = new IntervaloPremios("Bo Derek", 6, 1984, 1990);
+		min.add(intervaloMin);
+		
+		List<IntervaloPremios> max = new ArrayList<IntervaloPremios>();
+		IntervaloPremios intervaloMax = new IntervaloPremios("Bo Derek", 6, 1984, 1990);
+		max.add(intervaloMax);
+		
+		IntervaloPremiosDto intervalosPremios = new IntervaloPremiosDto(min, max);
+		
+		when(this.filmeService.getProdutoresMaiorMenorIntervaloPremio()).thenReturn(intervalosPremios);
+
+		given().accept(ContentType.JSON).when().get("/avaliacaotexoit/api/filme/produtoresMaiorMenorIntervaloPremio")
+				.then().statusCode(HttpStatus.OK.value());
 	}
 
 }
