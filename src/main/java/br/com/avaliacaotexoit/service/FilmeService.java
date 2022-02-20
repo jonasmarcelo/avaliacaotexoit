@@ -20,9 +20,9 @@ public class FilmeService {
 	private FilmeRepository repository;
 
 	/**
-	 * Método responsável por obter o produtor com maior intervalo entre dois prêmios consecutivos, e o que
-	 * obteve dois prêmios mais rápido, seguindo a especificação de formato definida na
-	 * página 2 do teste;
+	 * Método responsável por obter o produtor com maior intervalo entre dois
+	 * prêmios consecutivos, e o que obteve dois prêmios mais rápido, seguindo a
+	 * especificação de formato definida na página 2 do teste;
 	 * 
 	 * @return IntervaloPremiosDto
 	 */
@@ -31,6 +31,47 @@ public class FilmeService {
 		List<Filme> filmes = this.findAllFilmes();
 
 		List<Filme> filmesVencedores = this.repository.findAllVencedores();
+
+		Map<String, List<Filme>> mapProdutorFilmesVencedores = this.montaMapaProdutorFilmesVencedores(filmes,
+				filmesVencedores);
+
+		Map<String, List<IntervaloPremios>> mapProdutorIntervaloPremios = this
+				.montaMapaProdutorIntervaloPremios(mapProdutorFilmesVencedores);
+
+		List<IntervaloPremios> listaIntervalosMin = new ArrayList<IntervaloPremios>();
+		List<IntervaloPremios> listaIntervalosMax = new ArrayList<IntervaloPremios>();
+		for (Map.Entry<String, List<IntervaloPremios>> mapProdutorIntervalosPremios : mapProdutorIntervaloPremios
+				.entrySet()) {
+
+			IntervaloPremios intMin = mapProdutorIntervalosPremios.getValue().get(0);
+			IntervaloPremios intMax = mapProdutorIntervalosPremios.getValue().get(0);
+			for (IntervaloPremios i : mapProdutorIntervalosPremios.getValue()) {
+
+				if (intMin.getInterval() > i.getInterval()) {
+					intMin = i;
+				}
+
+				if (intMax.getInterval() < i.getInterval()) {
+					intMax = i;
+				}
+
+			}
+
+			listaIntervalosMin.add(intMin);
+			listaIntervalosMax.add(intMax);
+
+		}
+
+		return new IntervaloPremiosDto(listaIntervalosMin, listaIntervalosMax);
+	}
+
+	/**
+	 * Monta um mapa com o produtor e seus filmes vencedores
+	 * 
+	 * @return Map<String, List<Filme>>
+	 */
+	private Map<String, List<Filme>> montaMapaProdutorFilmesVencedores(List<Filme> filmes,
+			List<Filme> filmesVencedores) {
 
 		Map<String, List<Filme>> mapProdutorFilmesVencedores = new HashMap<String, List<Filme>>();
 
@@ -45,6 +86,17 @@ public class FilmeService {
 				}
 			}
 		}
+
+		return mapProdutorFilmesVencedores;
+	}
+
+	/**
+	 * Monta mapa com o produtor e seus intervalos
+	 * 
+	 * @return Map<String, List<IntervaloPremios>>
+	 */
+	private Map<String, List<IntervaloPremios>> montaMapaProdutorIntervaloPremios(
+			Map<String, List<Filme>> mapProdutorFilmesVencedores) {
 
 		Map<String, List<IntervaloPremios>> mapProdutorIntervaloPremios = new HashMap<String, List<IntervaloPremios>>();
 		for (Map.Entry<String, List<Filme>> entry : mapProdutorFilmesVencedores.entrySet()) {
@@ -81,34 +133,9 @@ public class FilmeService {
 				}
 
 			}
-
 		}
 
-		List<IntervaloPremios> listaIntervalosMin = new ArrayList<IntervaloPremios>();
-		List<IntervaloPremios> listaIntervalosMax = new ArrayList<IntervaloPremios>();
-		for (Map.Entry<String, List<IntervaloPremios>> mapProdutorIntervalosPremios : mapProdutorIntervaloPremios
-				.entrySet()) {
-
-			IntervaloPremios intMin = mapProdutorIntervalosPremios.getValue().get(0);
-			IntervaloPremios intMax = mapProdutorIntervalosPremios.getValue().get(0);
-			for (IntervaloPremios i : mapProdutorIntervalosPremios.getValue()) {
-
-				if (intMin.getInterval() > i.getInterval()) {
-					intMin = i;
-				}
-
-				if (intMax.getInterval() < i.getInterval()) {
-					intMax = i;
-				}
-
-			}
-
-			listaIntervalosMin.add(intMin);
-			listaIntervalosMax.add(intMax);
-
-		}
-
-		return new IntervaloPremiosDto(listaIntervalosMin, listaIntervalosMax);
+		return mapProdutorIntervaloPremios;
 	}
 
 	public void salvar(Filme filme) {
