@@ -6,7 +6,7 @@ da categoria Pior Filme do Golden Raspberry Awards
 ## Detalhes do projeto
 O projeto foi construído com Java 11, SpringBoot 2.6.3 e banco de dados H2
 
-## Instruções para rodar a API
+## Instruções para rodar a API e Testes
 
 1 - Baixe o projeto no GitHub no endereço: https://github.com/jonasmarcelo/avaliacaotexoit
 
@@ -17,7 +17,15 @@ O projeto foi construído com Java 11, SpringBoot 2.6.3 e banco de dados H2
 4 - Para obter o produtor com maior intervalo entre dois prêmios consecutivos, e o que
 obteve dois prêmios mais rápido, acesse o endpoint: localhost:8080/avaliacaotexoit/api/filme/produtoresMaiorMenorIntervaloPremio
 
-Obs: No projeto existem dois arquivos com informações diferentes para testar o retorno da API, fique a vontade para criar outros arquivos.
+Obs: No projeto existem dois arquivos com informações diferentes para testar o retorno da API, fique a vontade para criar outros arquivos
+
+Caminho dos arquivos:
+
+Arquivo1: /filmes/movielist
+
+Arquivo1: /filmes/movielist2
+
+5 - Para rodar os testes de integração da API, basta abrir a classe FilmeResourceTest e executar com o JUnit
 
 # Autor
 Jonas Marcelo de Carvalho
