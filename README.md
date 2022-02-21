@@ -19,11 +19,11 @@ obteve dois prêmios mais rápido, acesse o endpoint: localhost:8081/avaliacaote
 
 Obs: No projeto existem dois arquivos com informações diferentes para testar o retorno da API, fique a vontade para criar outros arquivos...
 
-Caminho dos arquivos:
+### Caminho dos arquivos:
 
-Arquivo1: /filmes/movielist
+- Arquivo1: /filmes/movielist
 
-Arquivo1: /filmes/movielist2
+- Arquivo1: /filmes/movielist2
 
 5 - Para rodar os testes de integração da API, basta abrir a classe FilmeResourceTest e executar com o JUnit
 
