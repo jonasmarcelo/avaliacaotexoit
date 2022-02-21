@@ -23,7 +23,7 @@ Obs: No projeto existem dois arquivos com informações diferentes para testar o
 
 - Arquivo1: /filmes/movielist
 
-- Arquivo1: /filmes/movielist2
+- Arquivo2: /filmes/movielist2
 
 5 - Para rodar os testes de integração da API, basta abrir a classe FilmeResourceTest e executar com o JUnit
 
