@@ -17,7 +17,7 @@ O projeto foi construído com Java 11, SpringBoot 2.6.3 e banco de dados H2
 4 - Para obter o produtor com maior intervalo entre dois prêmios consecutivos, e o que
 obteve dois prêmios mais rápido, acesse o endpoint: localhost:8081/avaliacaotexoit/api/filme/produtoresMaiorMenorIntervaloPremio
 
-Obs: No projeto existem dois arquivos com informações diferentes para testar o retorno da API, fique a vontade para criar outros arquivos
+Obs: No projeto existem dois arquivos com informações diferentes para testar o retorno da API, fique a vontade para criar outros arquivos...
 
 Caminho dos arquivos:
 
