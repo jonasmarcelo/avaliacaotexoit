@@ -19,25 +19,27 @@ public class DBService {
 	private FilmeService filmeService;
 
 	/**
-	 * Método que faz a leitura do arquivo de filmes e grava os dados no BD na inicialização da aplicação.
+	 * Método que faz a leitura do arquivo de filmes e grava os dados no BD na
+	 * inicialização da aplicação.
 	 */
 	public void instanciaBaseDeDados() {
 
 		this.filmeService.deleteAll();
 
 		List<Filme> filmes = this.getFilmesArquivo();
-		
+
 		filmes.forEach(filme -> this.filmeService.salvar(filme));
 
 	}
 
 	/**
-	 * Método responsável por ler o arquivo.csv de filmes e devolver uma lista de Filmes
+	 * Método responsável por ler o arquivo.csv de filmes e devolver uma lista de
+	 * Filmes
 	 * 
 	 * @return List<Filme>
 	 */
 	public List<Filme> getFilmesArquivo() {
-		
+
 		List<Filme> filmes = new ArrayList<Filme>();
 
 		try (BufferedReader br = new BufferedReader(new FileReader(PATH))) {
@@ -46,30 +48,36 @@ public class DBService {
 			linha = br.readLine();
 			while (linha != null) {
 				String[] linhaVetor = linha.split(";");
+				
+				String[] produtores = linhaVetor[3].replaceAll(" and ",",").split(",");
 
-				int ano = Integer.valueOf(linhaVetor[0]);
-				String titulo = linhaVetor[1];
-				String estudio = linhaVetor[2];
-				String produtor = linhaVetor[3];
+				for (int i = 0; i < produtores.length; i++) {
 
-				boolean vencedor;
-				if (linhaVetor.length < 5) {
-					vencedor = false;
-				} else {
-					vencedor = (linhaVetor[4]).equals("yes") ? true : false;
+					String produtor = produtores[i].trim();
+
+					int ano = Integer.valueOf(linhaVetor[0]);
+					String titulo = linhaVetor[1];
+					String estudio = linhaVetor[2];
+
+					boolean vencedor;
+					if (linhaVetor.length < 5) {
+						vencedor = false;
+					} else {
+						vencedor = (linhaVetor[4]).equals("yes") ? true : false;
+					}
+
+					Filme filme = new Filme(ano, titulo, estudio, produtor, vencedor);
+
+					filmes.add(filme);
 				}
-				
-				Filme filme = new Filme(ano, titulo, estudio, produtor, vencedor);
-				
-				filmes.add(filme);
-				
+
 				linha = br.readLine();
 			}
-			
+
 		} catch (Exception e) {
 			throw new RuntimeException("Erro ao ler o arquivo!: " + e.getMessage());
 		}
-		
+
 		return filmes;
 	}
 

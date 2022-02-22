@@ -1,6 +1,8 @@
 package br.com.avaliacaotexoit.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.avaliacaotexoit.model.Filme;
 import br.com.avaliacaotexoit.model.IntervaloPremios;
+import br.com.avaliacaotexoit.model.IntervaloPremiosCrescenteComparator;
+import br.com.avaliacaotexoit.model.IntervaloPremiosDecrescenteComparator;
 import br.com.avaliacaotexoit.model.IntervaloPremiosDto;
 import br.com.avaliacaotexoit.repository.FilmeRepository;
 
@@ -61,8 +65,35 @@ public class FilmeService {
 			listaIntervalosMax.add(intMax);
 
 		}
+		
+		Collections.sort(listaIntervalosMin, new IntervaloPremiosCrescenteComparator());
+		Collections.sort(listaIntervalosMax, new IntervaloPremiosDecrescenteComparator());
 
-		return new IntervaloPremiosDto(listaIntervalosMin, listaIntervalosMax);
+		List<IntervaloPremios> listaIntervalosMinFinais = new ArrayList<IntervaloPremios>();
+		listaIntervalosMinFinais.add(listaIntervalosMin.get(0));
+		IntervaloPremios intevaloMinFinal = null;
+		for (IntervaloPremios intervaloMin : listaIntervalosMin) {
+			
+			if (intevaloMinFinal != null && intevaloMinFinal.getInterval() == intervaloMin.getInterval()) {
+				listaIntervalosMinFinais.addAll(Arrays.asList(intervaloMin));
+			}
+
+			intevaloMinFinal = intervaloMin;
+		}
+
+		List<IntervaloPremios> listaIntervalosMaxFinais = new ArrayList<IntervaloPremios>();
+		listaIntervalosMaxFinais.add(listaIntervalosMax.get(0));
+		IntervaloPremios intevaloMaxFinal = null;
+		for (IntervaloPremios intervaloMax : listaIntervalosMax) {
+
+			if (intevaloMaxFinal != null && intevaloMaxFinal.getInterval() == intervaloMax.getInterval()) {
+				listaIntervalosMaxFinais.addAll(Arrays.asList(intervaloMax));
+			}
+
+			intevaloMaxFinal = intervaloMax;
+		}
+
+		return new IntervaloPremiosDto(listaIntervalosMinFinais, listaIntervalosMaxFinais);
 	}
 
 	/**
@@ -125,6 +156,11 @@ public class FilmeService {
 						listaIntervalorPremios.add(intervaloPremio);
 
 						mapProdutorIntervaloPremios.put(produtor, listaIntervalorPremios);
+
+						anoMin = 0;
+						anoMax = 0;
+
+						continue;
 					}
 
 					anoMin = f.getAno();
