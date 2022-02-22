@@ -41,11 +41,11 @@ public class FilmeResourceTest {
 	public void testaGetProdutoresMaiorMenorIntervaloPremio() {
 
 		List<IntervaloPremios> min = new ArrayList<IntervaloPremios>();
-		IntervaloPremios intervaloMin = new IntervaloPremios("Bo Derek", 6, 1984, 1990);
+		IntervaloPremios intervaloMin = new IntervaloPremios("Joel Silver", 1, 1990, 1991);
 		min.add(intervaloMin);
 		
 		List<IntervaloPremios> max = new ArrayList<IntervaloPremios>();
-		IntervaloPremios intervaloMax = new IntervaloPremios("Bo Derek", 6, 1984, 1990);
+		IntervaloPremios intervaloMax = new IntervaloPremios("Matthew Vaughn", 13, 2002, 2015);
 		max.add(intervaloMax);
 		
 		IntervaloPremiosDto intervalosPremios = new IntervaloPremiosDto(min, max);
