@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import br.com.avaliacaotexoit.model.IntervaloPremios;
 import br.com.avaliacaotexoit.model.IntervaloPremiosDto;
 import br.com.avaliacaotexoit.repository.FilmeRepository;
-import br.com.avaliacaotexoit.service.FilmeService;
+import br.com.avaliacaotexoit.service.FilmeServiceOld;
 import io.restassured.http.ContentType;
 
 @WebMvcTest
@@ -27,7 +27,7 @@ public class FilmeResourceTest {
 	private FilmeResource filmeResource;
 
 	@MockBean
-	private FilmeService filmeService;
+	private FilmeServiceOld filmeService;
 
 	@MockBean
 	private FilmeRepository filmeRepository;

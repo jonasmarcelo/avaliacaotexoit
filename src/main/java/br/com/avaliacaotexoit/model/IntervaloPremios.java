@@ -1,5 +1,7 @@
 package br.com.avaliacaotexoit.model;
 
+import java.util.Objects;
+
 public class IntervaloPremios {
 
 	private String producer;
@@ -48,6 +50,24 @@ public class IntervaloPremios {
 
 	public void setFollowingWin(int followingWin) {
 		this.followingWin = followingWin;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(followingWin, interval, previousWin, producer);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		IntervaloPremios other = (IntervaloPremios) obj;
+		return followingWin == other.followingWin && interval == other.interval && previousWin == other.previousWin
+				&& Objects.equals(producer, other.producer);
 	}
 
 }

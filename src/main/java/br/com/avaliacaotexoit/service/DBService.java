@@ -13,10 +13,10 @@ import br.com.avaliacaotexoit.model.Filme;
 @Service
 public class DBService {
 
-	private static final String PATH = "filmes\\movielist.csv";
+	private static final String PATH = "filmes\\movielist2.csv";
 
 	@Autowired
-	private FilmeService filmeService;
+	private FilmeServiceOld filmeService;
 
 	/**
 	 * Método que faz a leitura do arquivo de filmes e grava os dados no BD na
