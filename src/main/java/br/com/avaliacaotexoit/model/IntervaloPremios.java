@@ -54,7 +54,7 @@ public class IntervaloPremios {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(followingWin, interval, previousWin, producer);
+		return Objects.hash(interval);
 	}
 
 	@Override
@@ -66,8 +66,7 @@ public class IntervaloPremios {
 		if (getClass() != obj.getClass())
 			return false;
 		IntervaloPremios other = (IntervaloPremios) obj;
-		return followingWin == other.followingWin && interval == other.interval && previousWin == other.previousWin
-				&& Objects.equals(producer, other.producer);
+		return interval == other.interval;
 	}
 
 }

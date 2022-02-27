@@ -5,14 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import br.com.avaliacaotexoit.model.Filme;
-import br.com.avaliacaotexoit.model.FilmeComparatorAnoCrescente;
 import br.com.avaliacaotexoit.model.IntervaloPremios;
 import br.com.avaliacaotexoit.model.IntervaloPremiosCrescenteComparator;
 import br.com.avaliacaotexoit.model.IntervaloPremiosDto;
@@ -75,18 +70,32 @@ public class FilmeService {
 		mapProdutorFilmesVencedores.entrySet().stream().forEach(produtorFilmesVencedores -> {
 
 			String produtor = produtorFilmesVencedores.getKey();
+			
+			int anoMin = 0;
+			int anoMax = 0;
+			for (Filme f : produtorFilmesVencedores.getValue()) {
 
-			List<Filme> filmesVencedores = produtorFilmesVencedores.getValue();
+				if (anoMin > 0 && anoMin > f.getAno()) {
+					anoMin = f.getAno();
+				}
 
-			if (filmesVencedores.size() > 1) {
+				if (anoMax > 0 && anoMax < f.getAno()) {
+					anoMax = f.getAno();
+				}
 
-				Optional<Filme> anoMin = filmesVencedores.stream().min(new FilmeComparatorAnoCrescente());
-				Optional<Filme> anoMax = filmesVencedores.stream().max(new FilmeComparatorAnoCrescente());
-				
-				int intervalo = anoMax.get().getAno() - anoMin.get().getAno();
-				IntervaloPremios intervaloPremio = new IntervaloPremios(produtor, intervalo, anoMin.get().getAno(),
-						anoMax.get().getAno());
-				listaIntervalorPremios.add(intervaloPremio);
+				if (anoMin > 0 && anoMax > 0) {
+					int intervalo = anoMax - anoMin;
+					IntervaloPremios intervaloPremio = new IntervaloPremios(produtor, intervalo, anoMin, anoMax);
+					listaIntervalorPremios.add(intervaloPremio);
+
+					anoMin = 0;
+					anoMax = 0;
+
+					continue;
+				}
+
+				anoMin = f.getAno();
+				anoMax = f.getAno();
 
 			}
 		});
