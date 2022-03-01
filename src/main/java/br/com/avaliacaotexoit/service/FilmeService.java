@@ -73,30 +73,34 @@ public class FilmeService {
 			
 			int anoMin = 0;
 			int anoMax = 0;
-			for (Filme f : produtorFilmesVencedores.getValue()) {
-
-				if (anoMin > 0 && anoMin > f.getAno()) {
+			//Só é possível calcular um intervalo entre dois prêmios quando o produtor possui mais de um filme vencedor
+			if(produtorFilmesVencedores.getValue().size() > 1) {
+				
+				for (Filme f : produtorFilmesVencedores.getValue()) {
+					
+					if (anoMin > 0 && anoMin > f.getAno()) {
+						anoMin = f.getAno();
+					}
+					
+					if (anoMax > 0 && anoMax < f.getAno()) {
+						anoMax = f.getAno();
+					}
+					
+					if (anoMin > 0 && anoMax > 0) {
+						int intervalo = anoMax - anoMin;
+						IntervaloPremios intervaloPremio = new IntervaloPremios(produtor, intervalo, anoMin, anoMax);
+						listaIntervalorPremios.add(intervaloPremio);
+						
+						anoMin = 0;
+						anoMax = 0;
+						
+						continue;
+					}
+					
 					anoMin = f.getAno();
-				}
-
-				if (anoMax > 0 && anoMax < f.getAno()) {
 					anoMax = f.getAno();
+					
 				}
-
-				if (anoMin > 0 && anoMax > 0) {
-					int intervalo = anoMax - anoMin;
-					IntervaloPremios intervaloPremio = new IntervaloPremios(produtor, intervalo, anoMin, anoMax);
-					listaIntervalorPremios.add(intervaloPremio);
-
-					anoMin = 0;
-					anoMax = 0;
-
-					continue;
-				}
-
-				anoMin = f.getAno();
-				anoMax = f.getAno();
-
 			}
 		});
 

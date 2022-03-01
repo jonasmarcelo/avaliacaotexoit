@@ -134,6 +134,7 @@ public class FilmeServiceOld {
 
 			String produtor = entry.getKey();
 
+			//Só é possível calcular um intervalo entre dois prêmios quando o produtor possui mais de um filme vencedor
 			if (entry.getValue().size() > 1) {
 
 				List<IntervaloPremios> listaIntervalorPremios = new ArrayList<IntervaloPremios>();
