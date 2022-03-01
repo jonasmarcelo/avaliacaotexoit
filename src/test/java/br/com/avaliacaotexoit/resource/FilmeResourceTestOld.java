@@ -2,7 +2,6 @@ package br.com.avaliacaotexoit.resource;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.standaloneSetup;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class FilmeResourceTestOld {
 
 	@BeforeEach
 	public void setup() {
-		standaloneSetup(this.filmeResource , this.filmeService);
+		standaloneSetup(this.filmeResource, this.filmeService);
 	}
 
 	@Test
@@ -44,25 +43,17 @@ public class FilmeResourceTestOld {
 		List<IntervaloPremios> min = new ArrayList<IntervaloPremios>();
 		IntervaloPremios intervaloMin = new IntervaloPremios("Joel Silver", 1, 1990, 1991);
 		min.add(intervaloMin);
-		
+
 		List<IntervaloPremios> max = new ArrayList<IntervaloPremios>();
 		IntervaloPremios intervaloMax = new IntervaloPremios("Matthew Vaughn", 13, 2002, 2015);
 		max.add(intervaloMax);
-		
+
 		IntervaloPremiosDto intervalosPremios = new IntervaloPremiosDto(min, max);
-		
+
 		when(this.filmeService.getProdutoresMaiorMenorIntervaloPremio()).thenReturn(intervalosPremios);
 
 		given().accept(ContentType.JSON).when().get("/avaliacaotexoit/api/filme/produtoresMaiorMenorIntervaloPremio")
 				.then().statusCode(HttpStatus.OK.value());
-	}
-	
-	@Test
-	public void testeGetProdutoresMaiorMenorIntervaloPremio() {
-		IntervaloPremiosDto produtoresMaiorMenorIntervaloPremio
-			= this.filmeService.getProdutoresMaiorMenorIntervaloPremio();
-		
-		assertNotNull(produtoresMaiorMenorIntervaloPremio);
 	}
 
 }

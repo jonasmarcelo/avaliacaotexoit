@@ -1,30 +1,54 @@
 package br.com.avaliacaotexoit.resource;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+
+import java.util.Arrays;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
+import br.com.avaliacaotexoit.model.IntervaloPremios;
 import br.com.avaliacaotexoit.model.IntervaloPremiosDto;
-import br.com.avaliacaotexoit.service.FilmeService;
 
-@SpringBootTest
 @RunWith(SpringRunner.class)
-@WebAppConfiguration
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FilmeResourceTest {
-	
-	@Autowired
-	private FilmeService service;
 
-	@Test
-	public void testeGetProdutoresMaiorMenorIntervaloPremio() {
-		IntervaloPremiosDto produtoresMaiorMenorIntervaloPremio = this.service.getProdutoresMaiorMenorIntervaloPremio();
-		
-		assertNotNull(produtoresMaiorMenorIntervaloPremio);
-	}
+	@LocalServerPort
+	private int port;
+
+	TestRestTemplate testRestTemplate = new TestRestTemplate();
+
+	HttpHeaders headers = new HttpHeaders();
 	
+	@Test
+	public void getProdutoresMaiorMenorIntervaloPremioTest() {
+		
+		IntervaloPremios min = new IntervaloPremios("Joel Silver", 1, 1990, 1991);
+		IntervaloPremios max = new IntervaloPremios("Matthew Vaughn", 13, 2002, 2015);
+		IntervaloPremiosDto retornoEsperado = new IntervaloPremiosDto(Arrays.asList(min), Arrays.asList(max));
+		
+		HttpEntity<IntervaloPremiosDto> entity = new HttpEntity<>(null, headers);
+
+		ResponseEntity<IntervaloPremiosDto> responseEntity = testRestTemplate.exchange(
+				createURLWithPort("/avaliacaotexoit/api/filme/produtoresMaiorMenorIntervaloPremio"), HttpMethod.GET,
+				entity, IntervaloPremiosDto.class);
+
+		assertEquals(retornoEsperado.getMin(), responseEntity.getBody().getMin());
+		assertEquals(retornoEsperado.getMax(), responseEntity.getBody().getMax());
+
+	}
+
+	private String createURLWithPort(String uri) {
+		return "http://localhost:" + port + uri;
+	}
+
 }
