@@ -13,7 +13,7 @@ import br.com.avaliacaotexoit.model.Filme;
 @Service
 public class DBService {
 
-	private static final String PATH = "filmes\\movielist2.csv";
+	private static final String PATH = "filmes\\movielist.csv";
 
 	@Autowired
 	private FilmeServiceOld filmeService;
