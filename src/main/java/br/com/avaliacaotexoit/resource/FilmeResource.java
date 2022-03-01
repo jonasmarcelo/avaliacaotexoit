@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.avaliacaotexoit.model.IntervaloPremiosDto;
 import br.com.avaliacaotexoit.service.FilmeService;
-import br.com.avaliacaotexoit.service.FilmeServiceOld;
 
 @CrossOrigin("*")
 @RestController
