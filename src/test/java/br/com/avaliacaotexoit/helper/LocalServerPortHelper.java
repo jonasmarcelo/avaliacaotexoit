@@ -5,7 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ServerPortHelper {
+public class LocalServerPortHelper {
 
 	public HttpHeaders headers = new HttpHeaders();
 	
